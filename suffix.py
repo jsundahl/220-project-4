@@ -1,5 +1,6 @@
-from immdict import ImmDict
 from functools import *
+
+from immdict import ImmDict
 
 
 def empty_suffix():
@@ -21,25 +22,16 @@ def choose_word(chain, prefix, randomizer):
     sum = reduce(lambda x, y: x + y, values)
     n = randomizer(sum)
 
-    def x(current, pair):
-        """pass it the current total, current selected word, and the next pair, increment the total by the pairs
-        value, determine whether the n is in the new range and set the word to the word in the pair if it is"""
-        total = current[0]
-        word = current[1]
-        new_word = pair[0]
-        new_word_freq = pair[1]
-        if word is not "":
-            return current
+    def val_in_range(sum_word, word_pair):
+        sum = sum_word[0]
+        old_word = sum_word[1]
+        if old_word is not None:
+            return sum_word
         else:
-            if n in range(total, total + new_word_freq):
-                return 0, new_word
+            word = word_pair[0]
+            word_freq = word_pair[1]
+            if n in range(sum, sum + word_freq):
+                return sum + word_freq, word
             else:
-                return total + new_word_freq, ""
-
-    reduce(x, zip(chain.keys(), chain.values()), (1, ""))
-
-"""
-suffix
-builder
-generator
-"""
+                return sum + word_freq, None
+    return reduce(val_in_range, suffixes.get_dict().items(), (1, None))[1]

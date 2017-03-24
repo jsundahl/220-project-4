@@ -19,10 +19,10 @@ class ImmDict:
             return None
 
     def keys(self):
-        return copy.copy(self.d.keys())
+        return self.get_dict().keys()
 
     def values(self):
-        return copy.copy(self.d.values())
+        return self.get_dict().values()
 
     def get_dict(self):
         return copy.deepcopy(self.d)
