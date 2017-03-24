@@ -1,15 +1,15 @@
-
+import suffix
+from functools import *
+from immdict import ImmDict
 NONWORD = '/n'
 
-def build(file_name):
-    return NotImplemented
 
 def line_gen(file_name):
     with open(file_name, 'r') as file:
         for line in file:
             yield line
 
-# todo: test this as well
+
 def pairs_gen(file_name, line_gen_fn):
     def pairs_from_line(words):
         for i in range(0, len(words) - 2):
@@ -24,4 +24,17 @@ def pairs_gen(file_name, line_gen_fn):
 
 
 def add_to_chain(chain, pair):
-    return NotImplemented
+    if chain.get(pair[0]) is None:
+        return chain.put(pair[0], suffix.add_word({}, pair[1]))
+    else:
+        value = chain.get(pair[0])
+        return chain.put(pair[0], suffix.add_word(value, pair[1]))
+
+
+def build_chain(add_fn, pair_gen, immdict_obj):
+    return reduce(lambda d, p: add_fn(d, p), pair_gen, immdict_obj)
+
+
+def build(file_name):
+    gen = pairs_gen(file_name, line_gen)
+    return build_chain(add_to_chain, gen, ImmDict())

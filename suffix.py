@@ -14,7 +14,7 @@ def add_word(suffix, word):
         return suffix.put(old_pair[0], old_pair[1] + 1)
 
 
-# todo: test this
+# todo: finish and test this
 def choose_word(chain, prefix, randomizer):
     suffixes = chain.get(prefix)
     values = suffixes.values()

@@ -2,11 +2,14 @@ import copy
 
 class ImmDict:
 
-    def __init__(self):
-        self.d = {}
+    def __init__(self, d=None):
+        if d is None:
+            self.d = {}
+        else:
+            self.d = d
 
     def put(self, key, value):
-        return {**{key: value}, **self.d}
+        return ImmDict({**{key: value}, **self.d})
 
     def get(self, key):
         try:
@@ -19,3 +22,6 @@ class ImmDict:
 
     def values(self):
         return copy.copy(self.d.values())
+
+    def get_dict(self):
+        return copy.deepcopy(self.d)
