@@ -10,8 +10,8 @@ def add_word(suffix, word):
     if suffix.get(word) is None:
         return suffix.put(word, 1)
     else:
-        old_pair = suffix.get(word)
-        return suffix.put(old_pair[0], old_pair[1] + 1)
+        old_word_freq = suffix.get(word)
+        return suffix.put(word, old_word_freq + 1)
 
 
 # todo: finish and test this

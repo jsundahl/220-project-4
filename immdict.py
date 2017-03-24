@@ -1,4 +1,5 @@
 import copy
+from functools import *
 
 class ImmDict:
 
@@ -9,7 +10,7 @@ class ImmDict:
             self.d = d
 
     def put(self, key, value):
-        return ImmDict({**{key: value}, **self.d})
+        return ImmDict({**self.d, **{key: value}})
 
     def get(self, key):
         try:
@@ -25,3 +26,14 @@ class ImmDict:
 
     def get_dict(self):
         return copy.deepcopy(self.d)
+
+    def __str__(self):
+        list = []
+        for k, v in self.d.items():
+            value = None
+            if isinstance(v, ImmDict):
+                value = str(v.d)
+            else:
+                value = str(v)
+            list.append("{}: {}".format(str(k), value))
+        return '\n'.join(list)
