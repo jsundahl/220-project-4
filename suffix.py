@@ -1,5 +1,5 @@
 from functools import *
-
+import builder
 from immdict import ImmDict
 
 
@@ -15,9 +15,10 @@ def add_word(suffix, word):
         return suffix.put(word, old_word_freq + 1)
 
 
-# todo: finish and test this
 def choose_word(chain, prefix, randomizer):
     suffixes = chain.get(prefix)
+    if suffixes is None:
+        return builder.NONWORD
     values = suffixes.values()
     sum = reduce(lambda x, y: x + y, values)
     n = randomizer(sum)
