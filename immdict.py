@@ -14,7 +14,7 @@ class ImmDict:
 
     def get(self, key):
         try:
-            return self.d[key]
+            return copy.deepcopy(self.d[key])
         except KeyError:
             return None
 

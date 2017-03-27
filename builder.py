@@ -15,13 +15,15 @@ def pairs_gen(file_name, line_gen_fn):
         for i in range(0, len(word_list) - 2):
             yield (word_list[i], word_list[i + 1]), word_list[i + 2]
     line_gen = line_gen_fn(file_name)
-    words = [NONWORD, NONWORD] + next(line_gen).split(' ')
+    words = [NONWORD, NONWORD] + next(line_gen).split()
     for x in pairs_from_line(words):
         yield x
+    last_two = [words[-2], words[-1]]
     for line in line_gen:
-        words = line.split(' ')
+        words = last_two + line.split()
         for x in pairs_from_line(words):
             yield x
+        last_two = [words[-2], words[-1]]
     for x in pairs_from_line([words[len(words)-2], words[len(words)-1]] + [NONWORD]):
         yield x
 

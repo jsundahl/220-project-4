@@ -14,7 +14,6 @@ def get_word_list(chain, p, randomizer_fn, num_words, NONWORD):
             return trio_list
         else:
             new_word = suffix.choose_word(chain, prev_prefix, randomizer_fn)
-            print("prev prefix, word: {}, {}".format(prev_prefix, new_word))
             new_prefix = prefix.shift_in(prev_prefix, new_word)
             if new_word == NONWORD:
                 return trio_list + [(new_prefix, "", 0)]
@@ -26,5 +25,5 @@ def get_word_list(chain, p, randomizer_fn, num_words, NONWORD):
 
 
 def generate(chain, randomizer_fn, num_words, NONWORD):
-
+    return ' '.join(get_word_list(chain, (NONWORD, NONWORD), randomizer_fn, num_words, NONWORD))
 
